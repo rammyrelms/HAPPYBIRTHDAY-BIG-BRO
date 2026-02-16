@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eiji v27.0 – FIFA Legend Edition</title>
+<title>Eiji v27.0 – FIFA Python Legend</title>
 
 <style>
 body {
@@ -11,8 +11,8 @@ body {
     font-family: 'Courier New', monospace;
     background: black;
     color: #00ffcc;
-    overflow: hidden;
     text-align: center;
+    overflow-x: hidden;
 }
 
 canvas {
@@ -22,45 +22,63 @@ canvas {
     z-index: -1;
 }
 
-header {
-    padding: 60px 20px;
-}
-
 h1 {
     font-size: 3rem;
-    text-shadow: 0 0 15px #00ffcc;
+    margin-top: 40px;
+    text-shadow: 0 0 20px #00ffcc;
 }
 
-.card {
-    background: rgba(0,0,0,0.8);
-    border: 2px solid #00ffcc;
-    padding: 25px;
-    margin: 20px auto;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #00ffcc;
+.section {
+    padding: 40px 20px;
+}
+
+.fifa-card {
+    background: linear-gradient(135deg, #111, #1f1f2e);
+    border: 3px solid gold;
+    border-radius: 20px;
+    padding: 30px;
+    width: 300px;
+    margin: auto;
+    box-shadow: 0 0 25px gold;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.fifa-card img {
+    width: 120px;
+    border-radius: 50%;
+    border: 3px solid gold;
 }
 
 button {
     padding: 15px 30px;
     font-size: 1rem;
-    background: #00ffcc;
+    background: gold;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 button:hover {
-    background: #00ccaa;
+    background: orange;
 }
 
 #terminal {
     white-space: pre-line;
     margin-top: 20px;
-    font-size: 1rem;
-    color: #00ffcc;
+}
+
+#countdown {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: gold;
 }
 </style>
 </head>
@@ -69,42 +87,32 @@ button:hover {
 
 <canvas id="matrix"></canvas>
 
-<header>
-<h1>⚽ EIJI v27.0 DEPLOYED 🐍</h1>
-<p>FIFA Champion • Python Master • Legendary Big Brother</p>
-</header>
+<h1>⚽ EIJI v27.0 LEGEND EDITION 🐍</h1>
 
-<div class="card">
-<h2>🎮 FIFA Player Card</h2>
-<p><strong>Name:</strong> Eiji</p>
-<p><strong>Position:</strong> Full Stack Striker</p>
-<p><strong>Age:</strong> 27</p>
-<p><strong>Main Language:</strong> Python 🐍</p>
-<p><strong>Skill Rating:</strong> 99</p>
-<p><strong>Special Ability:</strong> Debug & Dominate</p>
+<div class="section">
+    <div class="fifa-card">
+        <!-- Replace photo.jpg with his picture -->
+        <img src="photo.jpg" alt="Eiji">
+        <h2>EIJI</h2>
+        <h3>27</h3>
+        <p>Position: Full Stack Striker</p>
+        <p>Language: Python 🐍</p>
+        <p>Rating: 99 ⚡</p>
+        <p>Special Skill: Debug & Dominate</p>
+    </div>
 </div>
 
-<div class="card">
-<h2>💬 Birthday Message</h2>
-<p>
-Eiji, from winning FIFA matches to mastering Python scripts,
-you’ve always played life like a champion.
-Level 27 isn’t just a birthday —
-it’s a new season.
-And trust me… you’re built for greatness.
-</p>
+<div class="section">
+    <h2>🎂 Countdown to Kickoff</h2>
+    <div id="countdown"></div>
 </div>
 
-<button onclick="unlock()">🏆 Unlock Achievement</button>
+<button onclick="unlock()">🏆 Unlock Legendary Mode</button>
 
 <div id="terminal"></div>
 
-<audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8e4e6c6e3.mp3?filename=8-bit-arcade-11046.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-// MATRIX EFFECT
+// MATRIX BACKGROUND
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
@@ -119,58 +127,94 @@ for(let x = 0; x < columns; x++)
     drops[x] = 1;
 
 function draw(){
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = "#00ffcc";
     ctx.font = fontSize + "px monospace";
 
-    for(let i = 0; i < drops.length; i++){
+    for(let i=0;i<drops.length;i++){
         const text = letters[Math.floor(Math.random()*letters.length)];
-        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
-            drops[i] = 0;
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+        if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+            drops[i]=0;
         drops[i]++;
     }
 }
-setInterval(draw, 33);
+setInterval(draw,33);
 
-// Unlock achievement
+// COUNTDOWN (Set his birthday date here)
+const birthday = new Date("March 20, 2026 00:00:00").getTime();
+
+const timer = setInterval(function(){
+    const now = new Date().getTime();
+    const distance = birthday - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24))/(1000*60*60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60))/(1000*60));
+    const seconds = Math.floor((distance % (1000 * 60))/1000);
+
+    document.getElementById("countdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+    if(distance < 0){
+        clearInterval(timer);
+        document.getElementById("countdown").innerHTML = "🎉 IT'S GAME TIME! 🎉";
+    }
+},1000);
+
+// CONFETTI
+function confetti(){
+    for(let i=0;i<150;i++){
+        const div = document.createElement("div");
+        div.style.position = "fixed";
+        div.style.width = "10px";
+        div.style.height = "10px";
+        div.style.background = "gold";
+        div.style.left = Math.random()*window.innerWidth+"px";
+        div.style.top = "-10px";
+        div.style.opacity = Math.random();
+        div.style.animation = "fall 3s linear";
+        document.body.appendChild(div);
+        setTimeout(()=>div.remove(),3000);
+    }
+}
+
+// Unlock
 function unlock(){
-    alert("⚽ Achievement Unlocked: FIFA & Code Champion!");
-    document.getElementById("bgMusic").play();
-
+    alert("⚽ Achievement Unlocked: FIFA & Python Champion!");
+    confetti();
     typeWriter(`
-> Initializing Birthday Protocol...
-> Loading FIFA Champion Mode...
+> Booting Legendary Mode...
+> Loading FIFA Dominance...
 > Importing Python Mastery...
-> Eiji v27.0 Successfully Deployed.
-> Future Version: UNSTOPPABLE.
+> Eiji v27.0 Activated.
+> Future Status: WORLD CLASS.
     `);
 }
 
-// Typing effect
-function typeWriter(text) {
-    let i = 0;
-    const speed = 40;
-    const terminal = document.getElementById("terminal");
-    terminal.innerHTML = "";
-
-    function typing() {
-        if (i < text.length) {
-            terminal.innerHTML += text.charAt(i);
+// Typing Effect
+function typeWriter(text){
+    let i=0;
+    const speed=40;
+    const terminal=document.getElementById("terminal");
+    terminal.innerHTML="";
+    function typing(){
+        if(i<text.length){
+            terminal.innerHTML+=text.charAt(i);
             i++;
-            setTimeout(typing, speed);
+            setTimeout(typing,speed);
         }
     }
     typing();
 }
 
 // Easter Egg
-document.addEventListener("keydown", function(e) {
-    if(e.key === "Enter"){
-        let command = prompt("Enter secret command:");
-        if(command === "sudo levelup"){
-            alert("🚀 GOD MODE ACTIVATED: Unlimited XP Enabled!");
+document.addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+        let command=prompt("Enter secret command:");
+        if(command==="sudo levelup"){
+            alert("🚀 GOD MODE ACTIVATED! Unlimited XP Enabled!");
         }
     }
 });
