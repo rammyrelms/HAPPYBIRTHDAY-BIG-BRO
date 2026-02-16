@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eiji v27.0 – FIFA Legend Edition</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    background: black;
+    color: #00ffcc;
+    overflow: hidden;
+    text-align: center;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+header {
+    padding: 60px 20px;
+}
+
+h1 {
+    font-size: 3rem;
+    text-shadow: 0 0 15px #00ffcc;
+}
+
+.card {
+    background: rgba(0,0,0,0.8);
+    border: 2px solid #00ffcc;
+    padding: 25px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #00ffcc;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1rem;
+    background: #00ffcc;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #00ccaa;
+}
+
+#terminal {
+    white-space: pre-line;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #00ffcc;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<header>
+<h1>⚽ EIJI v27.0 DEPLOYED 🐍</h1>
+<p>FIFA Champion • Python Master • Legendary Big Brother</p>
+</header>
+
+<div class="card">
+<h2>🎮 FIFA Player Card</h2>
+<p><strong>Name:</strong> Eiji</p>
+<p><strong>Position:</strong> Full Stack Striker</p>
+<p><strong>Age:</strong> 27</p>
+<p><strong>Main Language:</strong> Python 🐍</p>
+<p><strong>Skill Rating:</strong> 99</p>
+<p><strong>Special Ability:</strong> Debug & Dominate</p>
+</div>
+
+<div class="card">
+<h2>💬 Birthday Message</h2>
+<p>
+Eiji, from winning FIFA matches to mastering Python scripts,
+you’ve always played life like a champion.
+Level 27 isn’t just a birthday —
+it’s a new season.
+And trust me… you’re built for greatness.
+</p>
+</div>
+
+<button onclick="unlock()">🏆 Unlock Achievement</button>
+
+<div id="terminal"></div>
+
+<audio id="bgMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8e4e6c6e3.mp3?filename=8-bit-arcade-11046.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// MATRIX EFFECT
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters = "01 PYTHON FIFA EIJI ";
+const fontSize = 14;
+const columns = canvas.width/fontSize;
+const drops = [];
+
+for(let x = 0; x < columns; x++)
+    drops[x] = 1;
+
+function draw(){
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ffcc";
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++){
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+            drops[i] = 0;
+        drops[i]++;
+    }
+}
+setInterval(draw, 33);
+
+// Unlock achievement
+function unlock(){
+    alert("⚽ Achievement Unlocked: FIFA & Code Champion!");
+    document.getElementById("bgMusic").play();
+
+    typeWriter(`
+> Initializing Birthday Protocol...
+> Loading FIFA Champion Mode...
+> Importing Python Mastery...
+> Eiji v27.0 Successfully Deployed.
+> Future Version: UNSTOPPABLE.
+    `);
+}
+
+// Typing effect
+function typeWriter(text) {
+    let i = 0;
+    const speed = 40;
+    const terminal = document.getElementById("terminal");
+    terminal.innerHTML = "";
+
+    function typing() {
+        if (i < text.length) {
+            terminal.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
+
+// Easter Egg
+document.addEventListener("keydown", function(e) {
+    if(e.key === "Enter"){
+        let command = prompt("Enter secret command:");
+        if(command === "sudo levelup"){
+            alert("🚀 GOD MODE ACTIVATED: Unlimited XP Enabled!");
+        }
+    }
+});
+</script>
+
+</body>
+</html>
