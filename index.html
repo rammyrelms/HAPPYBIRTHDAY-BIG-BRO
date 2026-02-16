@@ -3,222 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eiji v27.0 – FIFA Python Legend</title>
+<title>Eiji v27.0 - Stadium Edition</title>
 
 <style>
 body {
     margin: 0;
     font-family: 'Courier New', monospace;
-    background: black;
-    color: #00ffcc;
+    color: white;
     text-align: center;
     overflow-x: hidden;
+    background: url('https://images.unsplash.com/photo-1508098682722-e99c643e7f2c?q=80&w=2070') no-repeat center center/cover;
 }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+.overlay {
+    background: rgba(0,0,0,0.7);
+    min-height: 100vh;
+    padding-bottom: 50px;
 }
 
 h1 {
     font-size: 3rem;
-    margin-top: 40px;
-    text-shadow: 0 0 20px #00ffcc;
-}
-
-.section {
-    padding: 40px 20px;
+    padding-top: 40px;
+    text-shadow: 0 0 20px cyan;
 }
 
 .fifa-card {
-    background: linear-gradient(135deg, #111, #1f1f2e);
-    border: 3px solid gold;
+    background: linear-gradient(135deg, #111, #222);
+    border: 4px solid gold;
     border-radius: 20px;
-    padding: 30px;
-    width: 300px;
-    margin: auto;
-    box-shadow: 0 0 25px gold;
-    animation: float 3s ease-in-out infinite;
+    padding: 25px;
+    width: 320px;
+    margin: 30px auto;
+    box-shadow: 0 0 30px gold;
+    animation: glow 2s infinite alternate;
 }
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-}
-
-.fifa-card img {
-    width: 120px;
-    border-radius: 50%;
-    border: 3px solid gold;
-}
-
-button {
-    padding: 15px 30px;
-    font-size: 1rem;
-    background: gold;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-button:hover {
-    background: orange;
-}
-
-#terminal {
-    white-space: pre-line;
-    margin-top: 20px;
-}
-
-#countdown {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    color: gold;
-}
-</style>
-</head>
-
-<body>
-
-<canvas id="matrix"></canvas>
-
-<h1>⚽ EIJI v27.0 LEGEND EDITION 🐍</h1>
-
-<div class="section">
-    <div class="fifa-card">
-        <!-- Replace photo.jpg with his picture -->
-        <img src="photo.jpg" alt="Eiji">
-        <h2>EIJI</h2>
-        <h3>27</h3>
-        <p>Position: Full Stack Striker</p>
-        <p>Language: Python 🐍</p>
-        <p>Rating: 99 ⚡</p>
-        <p>Special Skill: Debug & Dominate</p>
-    </div>
-</div>
-
-<div class="section">
-    <h2>🎂 Countdown to Kickoff</h2>
-    <div id="countdown"></div>
-</div>
-
-<button onclick="unlock()">🏆 Unlock Legendary Mode</button>
-
-<div id="terminal"></div>
-
-<script>
-// MATRIX BACKGROUND
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-const letters = "01 PYTHON FIFA EIJI ";
-const fontSize = 14;
-const columns = canvas.width/fontSize;
-const drops = [];
-
-for(let x = 0; x < columns; x++)
-    drops[x] = 1;
-
-function draw(){
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "#00ffcc";
-    ctx.font = fontSize + "px monospace";
-
-    for(let i=0;i<drops.length;i++){
-        const text = letters[Math.floor(Math.random()*letters.length)];
-        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-        if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-            drops[i]=0;
-        drops[i]++;
-    }
-}
-setInterval(draw,33);
-
-// COUNTDOWN (Set his birthday date here)
-const birthday = new Date("March 20, 2026 00:00:00").getTime();
-
-const timer = setInterval(function(){
-    const now = new Date().getTime();
-    const distance = birthday - now;
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24))/(1000*60*60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60))/(1000*60));
-    const seconds = Math.floor((distance % (1000 * 60))/1000);
-
-    document.getElementById("countdown").innerHTML =
-        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
-    if(distance < 0){
-        clearInterval(timer);
-        document.getElementById("countdown").innerHTML = "🎉 IT'S GAME TIME! 🎉";
-    }
-},1000);
-
-// CONFETTI
-function confetti(){
-    for(let i=0;i<150;i++){
-        const div = document.createElement("div");
-        div.style.position = "fixed";
-        div.style.width = "10px";
-        div.style.height = "10px";
-        div.style.background = "gold";
-        div.style.left = Math.random()*window.innerWidth+"px";
-        div.style.top = "-10px";
-        div.style.opacity = Math.random();
-        div.style.animation = "fall 3s linear";
-        document.body.appendChild(div);
-        setTimeout(()=>div.remove(),3000);
-    }
-}
-
-// Unlock
-function unlock(){
-    alert("⚽ Achievement Unlocked: FIFA & Python Champion!");
-    confetti();
-    typeWriter(`
-> Booting Legendary Mode...
-> Loading FIFA Dominance...
-> Importing Python Mastery...
-> Eiji v27.0 Activated.
-> Future Status: WORLD CLASS.
-    `);
-}
-
-// Typing Effect
-function typeWriter(text){
-    let i=0;
-    const speed=40;
-    const terminal=document.getElementById("terminal");
-    terminal.innerHTML="";
-    function typing(){
-        if(i<text.length){
-            terminal.innerHTML+=text.charAt(i);
-            i++;
-            setTimeout(typing,speed);
-        }
-    }
-    typing();
-}
-
-// Easter Egg
-document.addEventListener("keydown",function(e){
-    if(e.key==="Enter"){
-        let command=prompt("Enter secret command:");
-        if(command==="sudo levelup"){
-            alert("🚀 GOD MODE ACTIVATED! Unlimited XP Enabled!");
-        }
-    }
-});
-</script>
-
-</body>
-</html>
+@keyframes glow {
+    from { box-shadow: 0 0 20px gold; }
+    to {
